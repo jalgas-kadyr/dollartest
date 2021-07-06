@@ -1,7 +1,15 @@
 from django.db.models import *
 
 
-class Result(Model):
+class Interval(Model):
+    buy = FloatField()
+    sell = FloatField()
+    date = DateField()
+    time = TimeField()
+    unix = IntegerField()
+
+
+class Check(Model):
     buy = FloatField()
     sell = FloatField()
     date = DateField()
@@ -18,6 +26,8 @@ class Config(Model):
     galymjan = IntegerField()
     iteration = IntegerField()
     banks = CharField(max_length=200)
+    bot = BooleanField()
+    gmail = BooleanField()
 
 
 class Change(Model):
@@ -30,3 +40,4 @@ class Change(Model):
     date = DateField()
     time = TimeField()
     unix = IntegerField()
+    big = BooleanField()

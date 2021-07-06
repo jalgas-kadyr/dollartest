@@ -41,8 +41,8 @@
                   <tbody>
                     <tr>
                       <th scope="row">USD/KZT</th>
-                      <td>000.0</td>
-                      <td>000.0</td>
+                      <td>{{ rates.buy }}</td>
+                      <td>{{ rates.sell }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -112,7 +112,7 @@
                           <td>Телеграм бот</td>
                           <td>
                               <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                  <input class="form-check-input" type="checkbox" {{ telegram }} id="flexSwitchCheckDefault">
                                   <label class="form-check-label" for="flexSwitchCheckDefault">OFF/ON</label>
                               </div>
                           </td>
@@ -121,7 +121,7 @@
                           <td>Почта</td>
                           <td>
                               <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                  <input class="form-check-input" type="checkbox" {{ gmail }} id="flexSwitchCheckDefault">
                                   <label class="form-check-label" for="flexSwitchCheckDefault">OFF/ON</label>
                               </div>
                           </td>
