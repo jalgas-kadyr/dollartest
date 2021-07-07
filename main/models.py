@@ -28,6 +28,9 @@ class Config(Model):
     banks = CharField(max_length=200)
     bot = BooleanField()
     gmail = BooleanField()
+    porog_interval = IntegerField()
+    porog_check = IntegerField()
+    json = IntegerField()
 
 
 class Change(Model):

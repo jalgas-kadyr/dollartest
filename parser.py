@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import requests
 import json
 
@@ -26,4 +24,12 @@ except Exception as error:
                     except Exception as error:
                         pass
 
-print(data)
+
+# print(data['data']['currencyHistory'])
+
+data = {
+    'test': 1,
+    'test2': 2
+}
+res = next(iter(data))
+print(res)

@@ -49,7 +49,7 @@
             </div>
             <div class="bloks">
                 <h1>Настройки парсера</h1>
-                <form action="" method="post">
+                <form action="{% url 'config' %}" method="post">
                     {% csrf_token %}
                     <table class="table">
                       <tbody>
@@ -57,7 +57,7 @@
                           <td>Интервал между замерами</td>
                           <td>
                               <div class="input-group mb-1" style="width: 120px;">
-                                  <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                  <input type="text" class="form-control" placeholder="{{ porogs.interval }}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="interval">
                                   <span class="input-group-text" id="basic-addon2">мин</span>
                               </div>
                           </td>
@@ -66,7 +66,7 @@
                           <td>Интервал между сравнением</td>
                           <td>
                               <div class="input-group mb-1" style="width: 120px;">
-                                  <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                  <input type="text" class="form-control" placeholder="{{ porogs.check }}" aria-label="Recipient's username" aria-describedby="basic-addon2" name="check">
                                   <span class="input-group-text" id="basic-addon2">мин</span>
                               </div>
                           </td>
@@ -75,7 +75,7 @@
                           <td>Порог отправки сообщение <br>при каждом замере</td>
                           <td>
                               <div class="input-group mb-1" style="width: 120px;">
-                                  <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                  <input type="text" name="poroginterval" class="form-control" placeholder="{{ porogs.poroginterval }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                   <span class="input-group-text" id="basic-addon2">KZT</span>
                               </div>
                           </td>
@@ -84,7 +84,7 @@
                           <td>Порог отправки сообщение <br>при каждом сравнений</td>
                           <td>
                               <div class="input-group mb-1" style="width: 120px;">
-                                  <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                  <input type="text" name="porogcheck" class="form-control" placeholder="{{ porogs.porogcheck }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                   <span class="input-group-text" id="basic-addon2">KZT</span>
                               </div>
                           </td>
@@ -96,7 +96,7 @@
             </div>
             <div class="bloks">
                 <h1>Настройки бота</h1>
-                <form action="" method="post">
+                <form action="{% url 'botconfig' %}" method="post">
                     {% csrf_token %}
                     <table class="table">
                       <tbody>
@@ -104,7 +104,7 @@
                           <td>API token</td>
                           <td>
                               <div class="input-group mb-1">
-                                  <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                  <input type="text" class="form-control" name="api" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
                               </div>
                           </td>
                         </tr>
@@ -112,7 +112,7 @@
                           <td>Телеграм бот</td>
                           <td>
                               <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" {{ telegram }} id="flexSwitchCheckDefault">
+                                  <input class="form-check-input" type="checkbox" {{ telegram }} name="telegram">
                                   <label class="form-check-label" for="flexSwitchCheckDefault">OFF/ON</label>
                               </div>
                           </td>
@@ -121,13 +121,14 @@
                           <td>Почта</td>
                           <td>
                               <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" {{ gmail }} id="flexSwitchCheckDefault">
+                                  <input class="form-check-input" type="checkbox" {{ gmail }} name="gmail">
                                   <label class="form-check-label" for="flexSwitchCheckDefault">OFF/ON</label>
                               </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
+
                     <div align="right"><button class="btn btn-primary" type="submit">Сохранить</button></div>
                 </form>
             </div>
@@ -154,18 +155,19 @@
                     <div class="scroll-table-body">
                         <table>
                             <tbody>
+                            {% for change in changes %}
                                 <tr>
-                                    <td>0</td>
-                                    <td>000.0</td>
-                                    <td>0.0%</td>
-                                    <td>0.0тг</td>
-                                    <td>000.0</td>
-                                    <td>0.0%</td>
-                                    <td>0.0тг</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ change.id }}</td>
+                                    <td>{{ change.buy }}KZT</td>
+                                    <td>{{ change.dfbp|floatformat:2 }}%</td>
+                                    <td>{{ change.dfbtg|floatformat:2 }}KZT</td>
+                                    <td>{{ change.sell }}</td>
+                                    <td>{{ change.dfsp|floatformat:2 }}%</td>
+                                    <td>{{ change.dfstg|floatformat:2 }}</td>
+                                    <td>{{ change.date }}</td>
+                                    <td>{{ change.time }}</td>
                                 </tr>
-
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -174,28 +176,29 @@
             </div>
             <div class="bloks">
                 <h1>Вывод данных</h1>
-                <form action="" method="post">
+                <form action="{% url 'get' %}" method="post">
+                    {% csrf_token %}
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td>Дата начала:</td>
-                                <td><input type="date"></td>
+                                <td><input type="date" name="fromdata"></td>
                             </tr>
                             <tr>
                                 <td>Время начала:</td>
-                                <td><input type="time" name="" id=""></td>
+                                <td><input type="time" name="fromtime" id=""></td>
                             </tr>
                             <tr>
                                 <td>Дата конца:</td>
-                                <td><input type="date"></td>
+                                <td><input type="date" name="todata"></td>
                             </tr>
                             <tr>
                                 <td>Время конца:</td>
-                                <td><input type="time" name="" id=""></td>
+                                <td><input type="time" name="totime" id=""></td>
                             </tr>
                         </tbody>
                 </table>
-                <div align="right"><button class="btn btn-primary" type="submit">Вывести</button></div>
+                <div align="right"><button class="btn btn-primary" type="submit">Export to excel</button></div>
                 </form>
             </div>
         </div>
