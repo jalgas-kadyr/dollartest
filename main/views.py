@@ -8,7 +8,25 @@ def current_rate():
     rates = {}
     data = js.loads(requests.get('https://back.halykbank.kz/common/currency-history').text)
     res = next(iter(data['data']['currencyHistory']))
-    rates = data['data']['currencyHistory'][res]['cards']['USD/KZT']
+    try:
+        rates = data['data']['currencyHistory']['3']['cards']['USD/KZT']
+    except Exception as error:
+        try:
+            rates = data['data']['currencyHistory'][1]['cards']['USD/KZT']
+        except Exception as error:
+            try:
+                rates = data['data']['currencyHistory']['0']['cards']['USD/KZT']
+            except Exception as error:
+                try:
+                    rates = data['data']['currencyHistory'][0]['cards']['USD/KZT']
+                except Exception as error:
+                    try:
+                        rates = data['data']['currencyHistory']['2']['cards']['USD/KZT']
+                    except Exception as error:
+                        try:
+                            rates = data['data']['currencyHistory'][2]['cards']['USD/KZT']
+                        except Exception as error:
+                            pass
     return rates
 
 def index(request):
